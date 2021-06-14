@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-//[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _gravityMultyplier = -9.81f;
@@ -10,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private float _groundDistance = 0.4f;
     [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private Animator _animator;
 
     private CharacterController _controller;
     private Vector3 _gravityVelocity;
@@ -42,6 +42,14 @@ public class PlayerController : MonoBehaviour
         var yInput = _joystick.Vertical;
 
         _controller.Move((Vector3.right * xInput + Vector3.forward * yInput) * _speed * Time.deltaTime);
+        if (Mathf.Abs(xInput) > 0.1f || Mathf.Abs(yInput) > 0.1f)
+        {
+            _animator.SetFloat("Speed", 10f);
+        }
+        else
+        {
+            _animator.SetFloat("Speed", 0f);
+        }
         transform.LookAt(transform.position + (Vector3.right * xInput + Vector3.forward * yInput) * _speed * Time.deltaTime);
 
         var isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);

@@ -5,6 +5,7 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private ColorsInformation _colorsInformation;
     [SerializeField] private Transform _bricksTowerTransform;
+    [SerializeField] private Renderer _playerRenderer;
 
     public Color Color => _color;
     private Color _color;
@@ -19,9 +20,8 @@ public class PlayerInventory : MonoBehaviour
     {
         _bricks = new List<Brick>();
         _color = _colorsInformation.GetPlayerColor();
-        var playerRenderer = GetComponent<Renderer>();
-        playerRenderer.material = new Material(playerRenderer.material);
-        playerRenderer.material.color = _color;
+        _playerRenderer.material = new Material(_playerRenderer.material);
+        _playerRenderer.material.color = _color;
     }
 
     public void AddBrick(Brick brick)
